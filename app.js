@@ -21,7 +21,7 @@ const app = express();
 const connect = require("./config/db");
 const http = require("http");
 const socket = require("socket.io");
-const server = app.listen(3000, () => {
+const server = app.listen(3002, () => {
   console.log("listening on port 3000...");
 });
 
