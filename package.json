@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "DEBUG=express-session nodemon ./bin/www",
+    "start": "node app.js",
+    "dev": "DEBUG=express-session nodemon app.js",
     "tailwind:css": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css",
     "go": "npm run tailwind:css && npm run dev"
   },
