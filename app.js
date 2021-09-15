@@ -64,7 +64,7 @@ app.engine("ejs", async (path, data, cb) => {
     cb(e, "");
   }
 });
-require("./db");
+require("./config/db");
 
 // mongo sessions setup
 const sessionStore = MongoStore.create({
