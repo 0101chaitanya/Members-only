@@ -34,17 +34,6 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-io.on("connection", (socket) => {
-  console.log("made socket connection", socket.id);
-
-  socket.on("chat", (data) => {
-    io.sockets.emit("chat", data);
-  });
-
-  socket.on("typing", (data) => {
-    socket.broadcast.emit("typing", data);
-  });
-});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -65,6 +54,18 @@ app.engine("ejs", async (path, data, cb) => {
   }
 });
 require("./config/db");
+
+io.on("connection", (socket) => {
+  console.log("made socket connection", socket.id);
+
+  socket.on("chat", (data) => {
+    io.sockets.emit("chat", data);
+  });
+
+  socket.on("typing", (data) => {
+    socket.broadcast.emit("typing", data);
+  });
+});
 
 // mongo sessions setup
 const sessionStore = MongoStore.create({
