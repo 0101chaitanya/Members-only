@@ -13,7 +13,6 @@ router.get("/", (req, res, next) => {
   } else {
     res.render("index", {
       title: "Express",
-      authenticated: req.isAuthenticated(),
     });
   }
 });
