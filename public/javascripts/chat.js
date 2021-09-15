@@ -1,23 +1,11 @@
-const socket = io.connect("http://localhost:3000");
-
+const socket = io.connect(`http://localhost:5000`);
 const message = document.getElementById("message");
 const handle = document.getElementById("handle");
-const btn = document.getElementById("send");
+const send = document.getElementById("send");
 const output = document.getElementById("output");
 const feedback = document.getElementById("feedback");
 
-/* form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  e.stopImmediatePropagation();
-  socket.emit("chat", {
-    message: message.value,
-    handle: handle.value,
-  });
-  message.value = "";
-  handle.value = "";
-});
- */
-btn.addEventListener("click", (e) => {
+send.addEventListener("click", (e) => {
   socket.emit("chat", {
     message: message.value,
     handle: handle.value,

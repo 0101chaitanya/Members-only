@@ -21,10 +21,17 @@ const app = express();
 const connect = require("./config/db");
 const http = require("http");
 const socket = require("socket.io");
-const server = app.listen(3002, () => {
-  console.log("listening on port 3000...");
+const port = 5000;
+dotenv.config({
+  path: path.join(__dirname, ".env"),
 });
 
+console.log(port);
+const server = app.listen(port, () => {
+  console.log(`listening on port ${port}...`);
+});
+
+const io = socket(server);
 app.use(logger("dev"));
 app.use(express.json());
 app.use(
@@ -34,13 +41,6 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
-dotenv.config({
-  path: path.join(__dirname, ".env"),
-});
-
-const io = socket(server);
-
 io.on("connection", (socket) => {
   console.log("made socket connection", socket.id);
 
@@ -52,6 +52,7 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("typing", data);
   });
 });
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");

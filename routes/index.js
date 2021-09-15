@@ -54,11 +54,9 @@ router.post(
         errors: errors.array(),
       });
     } else {
-      console.log(req.body.password);
       const saltHash = genPassword(req.body.password);
       const hash = saltHash.hash;
       const salt = saltHash.salt;
-      console.log(req.body.username, req.body.password);
       const user = new User({
         username: req.body.username,
         hash: hash,
@@ -66,9 +64,7 @@ router.post(
         member: false,
         admin: false,
         adminMessage: "Welcome user",
-      }).save((user) => {
-        console.log(user);
-      });
+      }).save((user) => {});
       res.redirect("/login");
     }
   }
@@ -90,28 +86,22 @@ router.get("/logout", async (req, res, next) => {
   res.redirect("/");
 });
 router.get("/dashboard", isAuth, async (req, res, next) => {
-  // console.log(req.user._id);
   const context = req.session.context;
   req.session.context = "";
   res.render("dashboard", { context: context });
-  console.log(res.locals.currentUser);
 });
 
 router.post("/request", isAuth, async (req, res, next) => {
-  //console.log(req.body);
-
   const present = await Request.exists({
     identity: /* "613dd8103e7b34c4d4d93ca3" */ req.user._id,
   });
 
-  console.log(present);
   if (!present) {
     let request = new Request({
       identity: res.req.user._id,
       Type: req.body.permission,
     });
     request.save((request) => {
-      console.log(request);
       req.session.context = `Permit for ${req.body.permission} access requested`;
       res.redirect("/dashboard");
     });
@@ -122,13 +112,10 @@ router.post("/request", isAuth, async (req, res, next) => {
   }
 });
 router.get("/request", isAdmin, async (req, res, next) => {
-  //console.log(res.locals.currentUser);
   let Requests = await Request.find({}).populate("identity").lean();
-  console.log(Requests);
   res.render("adminRoute", { Requests: Requests });
 });
 router.get("/request/accept/member/:id", isAdmin, async (req, res, next) => {
-  //console.log(res.locals.currentUser);
   const filter = { _id: req.params.id };
 
   let checkMessage = await User.findOne(
@@ -137,7 +124,6 @@ router.get("/request/accept/member/:id", isAdmin, async (req, res, next) => {
       member: 1,
     }
   );
-  console.log(checkMessage.member);
   if (checkMessage.member) {
     let user = User.findOneAndUpdate(
       filter,
@@ -145,13 +131,9 @@ router.get("/request/accept/member/:id", isAdmin, async (req, res, next) => {
       { new: true }
     );
 
-    console.log(user);
-
     Request.findOneAndDelete({ identity: req.params.id }, function (err, docs) {
       if (err) {
-        console.log(err);
-      } else {
-        console.log("Deleted Request : ", docs);
+        next(err);
       }
     });
     res.redirect("/request");
@@ -163,16 +145,12 @@ router.get("/request/accept/member/:id", isAdmin, async (req, res, next) => {
     let user = await User.findOneAndUpdate(filter, update, {
       new: true,
     });
-    console.log(user);
     Request.findOneAndDelete({ identity: req.params.id }, function (err, docs) {
       if (err) {
-        console.log(err);
-      } else {
-        console.log("Deleted Request : ", docs);
+        next(err);
       }
     });
 
-    console.log(user);
     res.redirect("/request");
   }
 });
@@ -186,7 +164,6 @@ router.get("/request/accept/admin/:id", isAdmin, async (req, res, next) => {
       admin: 1,
     }
   );
-  console.log(checkAdmin.member);
   if (checkAdmin.member) {
     let user = User.findOneAndUpdate(
       filter,
@@ -194,13 +171,9 @@ router.get("/request/accept/admin/:id", isAdmin, async (req, res, next) => {
       { new: true }
     );
 
-    console.log(user);
-
     Request.findOneAndDelete({ identity: req.params.id }, function (err, docs) {
       if (err) {
-        console.log(err);
-      } else {
-        console.log("Deleted Request : ", docs);
+        next(err);
       }
     });
     res.redirect("/request");
@@ -212,16 +185,12 @@ router.get("/request/accept/admin/:id", isAdmin, async (req, res, next) => {
     let user = await User.findOneAndUpdate(filter, update, {
       new: true,
     });
-    console.log(user);
     Request.findOneAndDelete({ identity: req.params.id }, function (err, docs) {
       if (err) {
-        console.log(err);
-      } else {
-        console.log("Deleted Request : ", docs);
+        next(err);
       }
     });
 
-    console.log(user);
     res.redirect("/request");
   }
 });
@@ -235,13 +204,9 @@ router.get("/request/decline/member/:id", isAdmin, async (req, res, next) => {
     { new: true }
   );
 
-  console.log(user);
-
   Request.findOneAndDelete({ identity: req.params.id }, function (err, docs) {
     if (err) {
-      console.log(err);
-    } else {
-      console.log("Deleted Request : ", docs);
+      next(err);
     }
   });
   res.redirect("/request");
@@ -256,13 +221,9 @@ router.get("/request/decline/admin/:id", isAdmin, async (req, res, next) => {
     { new: true }
   );
 
-  console.log(user);
-
   Request.findOneAndDelete({ identity: req.params.id }, function (err, docs) {
     if (err) {
-      console.log(err);
-    } else {
-      console.log("Deleted Request : ", docs);
+      next(err);
     }
   });
   res.redirect("/request");
