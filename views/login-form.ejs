@@ -1,0 +1,11 @@
+<%- contentFor("body1") %>
+<div class="p-4 m-auto text-blue-800 w-80">
+  <h1 class="p-2 bg-yellow-200">Login Form</h1>
+  <form class="flex flex-col items-start p-4 " action="/login" method="POST">
+    <label for="username">Username: </label>
+    <input type="text" class="min-w-full border-2 border-pink-200" name="username" id="username">
+    <label for="Password">Password: </label>
+    <input type="password" name="password" class="min-w-full border-2 border-pink-200" id="password">
+    <button class="self-center p-2 m-4 border-2 border-green-600 rounded-xl" type=" submit">Login</button>
+  </form>
+</div>

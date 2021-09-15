@@ -1,0 +1,52 @@
+  <%- contentFor("body1")  %>
+  <h1 class="m-4 text-2xl text-indigo-700 underline">Welcome to dashboard</h1>
+  <% if (locals.currentUser.member) { %>
+  <div class="flex justify-between ">
+    <p class="w-40 p-2 m-10 text-blue-700 bg-yellow-500">You are a member</p>
+
+    <% if (locals.currentUser.admin) { %>
+
+    <p class="w-40 p-2 m-10 text-blue-700 bg-yellow-500">You are an admin</p>
+  </div>
+  <a class="p-2 mt-10 text-blue-700 bg-green-300" href="/request">Admin panel</a>
+  <% }else{  %>
+  </div>
+  <% } %>
+  <% } %>
+
+
+  <% if (!locals.currentUser.member || !locals.currentUser.admin) { %>
+
+  <form class="m-3 text-indigo-700" method="post" action="/request">
+    <label for="permission">Apply for </label>
+    <select name="permission" id="permission">
+      <option value="member" selected=<%=   !locals.currentUser.member ? "selected"  :  null %>>Member rights</option>
+      <option value="admin" selected=<%=  !locals.currentUser.admin ? null : "selected"   %>>Admin rights</option>
+    </select>
+    <button class="p-2 bg-yellow-500 rounded-lg" type="submit">Send request</button>
+  </form>
+  <% } %>
+
+  <% if (locals.context) { %>
+
+  <p class="m-2 text-indigo-700">Status update: <%= locals.context %></p>
+  <% } %>
+  <% if (locals.currentUser.adminMessage) { %>
+
+  <p class="m-2 text-indigo-700">Admin Message: <%= locals.currentUser.adminMessage %></p>
+  <% } %>
+
+  <% if (locals.isAuth && locals.currentUser.member) { %>
+  <div id="mario-chat">
+    <div id="chat-window">
+      <div id="output"></div>
+      <div id="feedback"></div>
+    </div>
+    <input type="text" placeholder="Handle" value="<%= locals.isAuth ?
+        locals.currentUser.username  : "" %>" id="handle" />
+    <input type="text" placeholder="Message" id="message" />
+    <button id="send">Send</button>
+  </div>
+  <% }else  {%>
+  <div></div>
+  <% } %>

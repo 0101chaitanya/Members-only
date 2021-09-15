@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= locals.title %></title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+  <link rel="stylesheet" type="text/css" href="/stylesheets/chat.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js" integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <nav>
+    <ul class="flex items-center justify-between h-16 m-4 text-blue-900 bg-red-300 rounded-xl">
+      <% if (locals.currentUser) { %>
+
+      <li class="p-3 m-2 bg-green-400 rounded-lg">
+        <a class="" href="/dashboard">Home</a>
+      </li>
+      <li class="p-3 m-2 bg-green-400 rounded-lg">
+        <a href="/logout">Logout</a>
+      </li>
+      <% } else { %>
+      <li class="p-3 m-2 bg-green-400 rounded-lg justify-self-start">
+        <a class="" href="/">Home</a>
+      </li>
+      <span class="flex">
+        <li class="p-3 m-2 bg-green-400 rounded-lg">
+          <a class="active:textDecoration:underline" href="/login">Login</a>
+        </li>
+        <li class="p-3 m-2 bg-green-400 rounded-lg">
+          <a href="/signup">Sign Up</a>
+        </li>
+      </span>
+      <% } %>
+    </ul>
+  </nav>
+  <div class="text-center">
+    <%- defineContent("body1") %> <%- defineContent("body2") %>
+    <script src="/javascripts/chat.js"></script>
+  </div>
+</body>
+
+</html>

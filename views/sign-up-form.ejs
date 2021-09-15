@@ -1,0 +1,21 @@
+<%- contentFor("body1") %>
+<div class="p-4 m-auto text-blue-800 w-80">
+  <h1 class="p-2 bg-yellow-200">Sign up Form</h1>
+  <form class="flex flex-col items-start p-4 " action="/signup" method="POST">
+    <label for="username">Username: </label>
+    <input type="text" class="min-w-full border-2 border-pink-200" value="<%= locals.username %>" name="username" id="username">
+    <label for="Password">Password: </label>
+    <input type="password" name="password" class="min-w-full border-2 border-pink-200" value="<%= locals.password %>" id="password">
+    <label for="confirmPassword">Confirm Password: </label>
+    <input type="password" name="confirmPassword" class="min-w-full border-2 border-pink-200" id="confirmpassword">
+    <button class="self-center p-2 mt-4 border-2 border-green-600 rounded-xl" type=" submit">Sign Up</button>
+  </form>
+</div>
+
+<% if (locals.errors) {%>
+<ul>
+  <% for (let error of errors) {%>
+  <li class="p-4 m-auto text-blue-800 w-80"><%= error.msg %></li>
+  <% } %>
+</ul>
+<% } %>

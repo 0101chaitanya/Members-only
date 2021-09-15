@@ -1,0 +1,14 @@
+ <%- contentFor("body1")  %>
+ <h1>Manage Requests</h1>
+
+ <ul class="flex self-center justify-center w-4/5 p-4 m-auto text-indigo-600 list-disc border-2 border-red-600">
+
+   <% for(let request of locals.Requests) { %>
+
+   <li><Strong>Request type :</Strong><%= request.Type %> request from <%= request.identity.username %> <a class="p-2 m-2 bg-green-400" href="/request/accept/<%= request.Type %>/<%= request.identity._id %>">Accept</a>
+     <a class="p-2 bg-red-400" href="/request/decline/<%= request.Type %>/<%= request.identity._id %>">Decline</a>
+   </li>
+
+
+   <% } %>
+ </ul>
