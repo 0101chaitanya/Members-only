@@ -21,7 +21,9 @@ const app = express();
 const connect = require("./config/db");
 const http = require("http");
 const socket = require("socket.io");
-const server = http.createServer(app);
+const server = app.listen(3000, () => {
+  console.log("listening on port 3000...");
+});
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -116,4 +118,4 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-module.exports = { app: app, server: server };
+module.exports = app;
